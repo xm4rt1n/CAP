@@ -1,3 +1,4 @@
+// Ejercicio que crea dos arrays por memoria dinamica y los suma, midiendo cuanto tarda esa suma.
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
