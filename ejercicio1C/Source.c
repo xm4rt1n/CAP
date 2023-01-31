@@ -24,8 +24,8 @@ void main() {
 	}
 
 	t0 = clock();
-	
-	#pragma omp parallel for
+
+#pragma omp parallel for
 	for (int i = 0; i < n; i++) {
 		*(array1 + i) += *(array2 + i);
 	}
