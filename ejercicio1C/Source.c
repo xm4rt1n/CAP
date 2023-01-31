@@ -10,22 +10,33 @@ void main() {
 	time_t t0, t1;
 	srand(0);
 
-	omp_get_num_threads(4);
+	omp_get_num_threads(4); //establecemos el numero de hilos a usar por omp en 4
 
 	printf("Introduce el numero de elementos de los arrays: ");
 	scanf("%d", &n);
 
+	// reserva de memoria dinamica de las matrices
 	array1 = (int*)malloc(n * sizeof(int));
+	if(array1==NULL){
+		printf("No se pudo reservar la memoria dinamica");
+		exit;
+	}
 	array2 = (int*)malloc(n * sizeof(int));
+	if (array2 == NULL) {
+		printf("No se pudo reservar la memoria dinamica");
+		exit;
+	}
 
+	//rellenar los arrays con numeros enteros pseudoaleatorios
 	for (int i = 0; i < n - 1; i++) {
 		*(array1 + i) = rand();
 		*(array2 + i) = rand();
 	}
 
+	//se suman los elementos de los arrays uno a uno midiendo cuanto tarda esta suma
 	t0 = clock();
 
-#pragma omp parallel for
+#pragma omp parallel for // paralelizacion del bucle for
 	for (int i = 0; i < n; i++) {
 		*(array1 + i) += *(array2 + i);
 	}
