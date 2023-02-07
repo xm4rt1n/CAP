@@ -6,7 +6,7 @@
 
 void main() {
 	int n;
-	int* array1, * array2;
+	unsigned short* array1, * array2;
 	time_t t0, t1;
 	srand(0);
 
@@ -16,12 +16,12 @@ void main() {
 	scanf("%d", &n);
 
 	// reserva de memoria dinamica de las matrices
-	array1 = (int*)malloc(n * sizeof(int));
-	if(array1==NULL){
+	array1 = (unsigned short*)malloc(n * sizeof(unsigned short));
+	if (array1 == NULL) {
 		printf("No se pudo reservar la memoria dinamica");
 		exit;
 	}
-	array2 = (int*)malloc(n * sizeof(int));
+	array2 = (unsigned short*)malloc(n * sizeof(unsigned short));
 	if (array2 == NULL) {
 		printf("No se pudo reservar la memoria dinamica");
 		exit;
@@ -33,12 +33,18 @@ void main() {
 		*(array2 + i) = rand();
 	}
 
+	// realizamos la conversion de tipos para sumar bloques de long(8 bytes) en luegar de sumar bloques de short (2 bytes)
+	unsigned long* LvA = (unsigned long*)array1;
+	unsigned long* LvB = (unsigned long*)array2;
+
 	//se suman los elementos de los arrays uno a uno midiendo cuanto tarda esta suma
 	t0 = clock();
 
-//#pragma omp parallel for // paralelizacion del bucle for
+	n = n / 4; // tengo que reajustar el numero de elementos ya que ahora a estar mas agrupados los datos tengo menos datos. 
+
+	//#pragma omp parallel for // paralelizacion del bucle for
 	for (int i = 0; i < n; i++) {
-		*(array1 + i) += *(array2 + i);
+		*(LvA + i) += *(LvB + i);
 	}
 
 	t1 = clock();
