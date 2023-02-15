@@ -10,7 +10,7 @@ void main() {
 	time_t t0, t1;
 	srand(0);
 
-	omp_get_num_threads(4); //establecemos el numero de hilos a usar por omp en 4
+	//omp_get_num_threads(4); //establecemos el numero de hilos a usar por omp en 4
 
 	printf("Introduce el numero de elementos de los arrays: ");
 	scanf("%d", &n);
@@ -37,10 +37,10 @@ void main() {
 	unsigned long* LvA = (unsigned long*)array1;
 	unsigned long* LvB = (unsigned long*)array2;
 
+	n = n / 4; // tengo que reajustar el numero de elementos ya que ahora a estar mas agrupados los datos tengo menos datos. 
+
 	//se suman los elementos de los arrays uno a uno midiendo cuanto tarda esta suma
 	t0 = clock();
-
-	n = n / 4; // tengo que reajustar el numero de elementos ya que ahora a estar mas agrupados los datos tengo menos datos. 
 
 	//#pragma omp parallel for // paralelizacion del bucle for
 	for (int i = 0; i < n; i++) {
@@ -56,3 +56,5 @@ void main() {
 	free(array1);
 	free(array2);
 }
+// si no cambiamos el tipo de datos la suma tarda 0.005s en sumar los arrays de 10M de elementos,
+// mientras que al realizar la conversion de tipos puede sumar la misma cantidad de elementos en 0.001s. 
